@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Conversor de Numeros Romanos</title>
+</head>
+
+<body>
+  <main class="container">
+    <section class="title-section">
+      <h1 class="title">Conversor de Numeros Romanos</h1>
+      <span>Esta aplicação faz parte do desafio proposto pela Ingacode, o desafio consiste em um conversor de numeros de
+        romano para decimal e vice-versa</span>
+    </section>
+
+    <section class="input-section">
+      <div class="input-section-line">
+        <span>Decimal: </span>
+        <input type="text" id="inputDecimal" onchange="handleDecimalConversion(event)">
+      </div>
+
+      <div class="input-section-line">
+        <span>Romano: </span>
+        <input type="text" id="inputRomano" onchange="handleRomanConversion(event)">
+      </div>
+    </section>
+  </main>
+</body>
+
+<script src="script.js"></script>
+
+
+</html>
