@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elevator Simulation</title>
+  <style>
+    /* Adicione seu CSS aqui para estilizar o prédio, elevador e painel de controle */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #building {
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
+      border: 2px solid black;
+      width: 200px;
+      height: 400px;
+      position: relative;
+    }
+
+    .floor {
+      width: 100%;
+      height: 25%;
+      border-top: 1px solid black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+    #elevator-shaft {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      border-left: 1px solid black;
+      border-right: 1px solid black;
+      overflow: hidden;
+    }
+
+    #elevator {
+      width: 100%;
+      height: 25%;
+      background-color: gray;
+      position: absolute;
+      bottom: 0;
+      transition: bottom 2s;
+    }
+
+    #control-panel {
+      display: flex;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+
+    .floor-btn {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="building">
+    <div id="elevator-shaft">
+      <div id="elevator"></div>
+    </div>
+    <div class="floor" data-floor="4">4º andar <button class="call-up">↑</button></div>
+    <div class="floor" data-floor="3">3º andar <button class="call-up">↑</button> <button class="call-down">↓</button>
+    </div>
+    <div class="floor" data-floor="2">2º andar <button class="call-up">↑</button> <button class="call-down">↓</button>
+    </div>
+    <div class="floor" data-floor="1">1º andar <button class="call-down">↓</button></div>
+  </div>
+
+  <div id="control-panel">
+    <button class="floor-btn" data-floor="1">1</button>
+    <button class="floor-btn" data-floor="2">2</button>
+    <button class="floor-btn" data-floor="3">3</button>
+    <button class="floor-btn" data-floor="4">4</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let queue = [];
+      let currentFloor = 1;
+      let elevator = document.getElementById('elevator');
+
+      function callElevator(floor) {
+        queue.push(floor);
+        processQueue();
+      }
+
+      function processQueue() {
+        if (queue.length === 0) return;
+
+        let nextFloor = queue.shift();
+        moveElevator(nextFloor);
+      }
+
+      function moveElevator(floor) {
+        let floorHeight = 25; // Altura de cada andar em %
+        let newBottom = (floor - 1) * floorHeight;
+        elevator.style.bottom = newBottom + '%';
+        currentFloor = floor;
+        setTimeout(() => {
+          processQueue();
+        }, 2000);
+      }
+
+      document.querySelectorAll('.call-up, .call-down').forEach(button => {
+        button.addEventListener('click', function () {
+          let floor = parseInt(this.parentElement.getAttribute('data-floor'));
+          callElevator(floor);
+        });
+      });
+
+      document.querySelectorAll('.floor-btn').forEach(button => {
+        button.addEventListener('click', function () {
+          let floor = parseInt(this.getAttribute('data-floor'));
+          callElevator(floor);
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>
