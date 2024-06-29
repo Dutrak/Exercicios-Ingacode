@@ -22,6 +22,11 @@ function validateRoman(romanAlgarism) {
   const repeat3 = ["I", "X", "C", "M"] //As letras I X C M podem se repetir 3 vezes
   const repeat1 = ["V", "L", "D"] // /As letras V L D não pode repetir
 
+  // Verifica se todos os algarismos são um algarismo romano
+  for (algarism of romanAlgarism) {
+    if (!algarism.match('[IVXLCDM]')) isValid = false
+  }
+
   const caracterArray = romanAlgarism.split("")
   // Verifica se existe a repetição de acordo com as regras
   for (char of repeat3) if (caracterArray.filter((c) => c === char).length > 3) isValid = false
