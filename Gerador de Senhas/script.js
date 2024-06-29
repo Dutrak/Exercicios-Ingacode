@@ -24,9 +24,21 @@ function setPasswordStrenght(password) {
     color: 'green'
   }
 
-  if (password.match('[0-9]')) return {
-    passwordStrenght: 'Sua senha é fraca, tente colocar letras e caracteres especiais',
-    color: 'red'
+  if (password.match('[0-9]')) {
+    if (password.match('[@!#$%^&]')) return {
+      passwordStrenght: 'Sua senha é forte, parabéns!!',
+      color: 'green'
+    }
+
+    if (password.match('[A-Za-z]')) return {
+      passwordStrenght: 'Sua senha é médiana, procure incluir caracteres especiais ou aumentar o numero de caracteres',
+      color: 'yellow'
+    }
+
+    return {
+      passwordStrenght: 'Sua senha é fraca, tente colocar letras e caracteres especiais',
+      color: 'red'
+    }
   }
 
   if (password.match('[@!#$%^&]')) return {
@@ -57,6 +69,8 @@ function handleFormSubmit(e) {
   const checkboxLowercase = document.getElementById("lowercase")
   const checkboxNumbers = document.getElementById("numbers")
   const checkboxSymbols = document.getElementById("symbols")
+
+  if (!passwordLength) return
 
   if (checkboxUppercase.checked) {
     passwordPattern += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
