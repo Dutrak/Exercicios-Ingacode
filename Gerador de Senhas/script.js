@@ -55,7 +55,7 @@ function setPasswordStrenght(password, containsEmoji) {
 
     if (password.match('[A-Za-z]')) return {
       passwordStrenght: 'Sua senha é médiana, procure incluir caracteres especiais ou aumentar o numero de caracteres',
-      color: 'yellow'
+      color: 'orange'
     }
 
     return {
