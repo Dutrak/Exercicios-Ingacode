@@ -8,7 +8,7 @@ export default {
     extend: {
       height: {
         floor: '6rem'
-      }
+      },
     },
   },
   plugins: [],
