@@ -1,19 +1,37 @@
-function generatePassword(length, pattern, regexPattern) {
+function generatePassword(length, pattern, regexPattern, containsEmoji) {
   let password = ''
   const regex = new RegExp(regexPattern)
+  let emojiNumber = 0
+  let emojis = getEmojis()
+
+  if (containsEmoji) {
+    emojiNumber = Math.floor(Math.random() * ((length / 2) - 1) + 1) // o numero de emojis é sempre o tamanho/2
+  }
+
+  console.log(emojiNumber)
 
   while (!regex.test(password)) {
     password = ''
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < (length - emojiNumber); i++) {
       let char = Math.floor(Math.random() * pattern.length)
       password += pattern.charAt(char)
     }
-    console.log(password.length, length, pattern.length)
   }
+
+  if (containsEmoji) {
+    let passwordArray = password.split('')
+    for (i = 0; i < emojiNumber; i++) {
+      let emojiAddPos = Math.floor(Math.random() * passwordArray.length)
+      let emojisPos = Math.floor(Math.random() * emojis.length)
+      passwordArray.splice(emojiAddPos, 0, emojis[emojisPos])
+    }
+    return passwordArray.join('')
+  }
+
   return password
 }
 
-function setPasswordStrenght(password) {
+function setPasswordStrenght(password, containsEmoji) {
   if (password.length < 16) return {
     passwordStrenght: 'Sua senha é fraca, tente colocar mais caracteres',
     color: 'red'
@@ -21,6 +39,11 @@ function setPasswordStrenght(password) {
 
   if (password.length >= 32) return {
     passwordStrenght: 'Sua senha é forte, parabéns!!',
+    color: 'green'
+  }
+
+  if (containsEmoji) return {
+    passwordStrenght: 'Sua senha é forte, continue utilizando mais emojis!!',
     color: 'green'
   }
 
@@ -63,12 +86,14 @@ function handleFormSubmit(e) {
   let passwordPattern = ''
   let regexPattern = ''
   let password = ''
+  let containsEmoji = false
 
   const passwordLength = document.getElementById("length").value
   const checkboxUppercase = document.getElementById("uppercase")
   const checkboxLowercase = document.getElementById("lowercase")
   const checkboxNumbers = document.getElementById("numbers")
   const checkboxSymbols = document.getElementById("symbols")
+  const checkboxEmojis = document.getElementById("emojis")
 
   if (!passwordLength) return
 
@@ -90,10 +115,12 @@ function handleFormSubmit(e) {
     regexPattern = '(?=.*[@!#$%^&])'
   }
 
-  if (!passwordPattern) password = ''
-  else password = generatePassword(passwordLength, passwordPattern, regexPattern)
+  if (checkboxEmojis.checked) containsEmoji = true
 
-  const { passwordStrenght, color } = setPasswordStrenght(password)
+  if (!passwordPattern) password = ''
+  else password = generatePassword(passwordLength, passwordPattern, regexPattern, containsEmoji)
+
+  const { passwordStrenght, color } = setPasswordStrenght(password, containsEmoji)
 
   document.getElementById("result").innerHTML = password
   document.getElementById("strength").innerHTML = passwordStrenght
@@ -113,4 +140,8 @@ async function handleCopyClipboard(e) {
     console.log(e)
     alert("Não foi possivel copiar a senha")
   }
-} 
+}
+
+function getEmojis() {
+  return ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '☺️', '😚', '😙', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐️', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '😮‍', '💨', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '😶‍']
+}
