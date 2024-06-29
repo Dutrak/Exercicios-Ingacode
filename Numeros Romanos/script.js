@@ -68,6 +68,7 @@ function decimalToRoman(decimalNumber) {
 
   const reference = getReference()
 
+  if (decimalNumber === '') return ""
   if (decimalNumber == 0 || Number.isInteger(decimalNumber) || decimalNumber == undefined) return "Digitos Invalidos"
 
   finalValue = ''
