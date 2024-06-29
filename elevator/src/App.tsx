@@ -33,7 +33,7 @@ export function App() {
     while (eventQueue.current.length > 0) {
       const action = eventQueue.current.shift()
       if (action) action()
-      await delay(5000)
+      await delay(7000) // 2 segundos da animação + 5 segundos do tempo de espera
     }
 
     // Caso a fila esteja vazia, retorna para o primeiro andar 
