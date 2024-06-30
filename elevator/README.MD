@@ -4,6 +4,7 @@ A seguinte aplicação faz parte de um exercicios proposto durante o processo se
 ## 💻 Tecnologias utilizadas
 
 - React
+- Vite
 - TailwindCSS
 - Typescript
 
